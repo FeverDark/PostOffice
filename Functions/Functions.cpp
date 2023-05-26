@@ -198,12 +198,96 @@ Transmission* Package::copy() {
 	return new Package(*this);
 }
 
+bool PhoneComp::operator()(Transmission* s, std::wstring i) {
+	std::wstring t1 = s->getPhoneNumber();
+	std::string temp1;
+	std::transform(t1.begin(), t1.end(), std::back_inserter(temp1), [](wchar_t c) { return (char)c; });
+	return t1 < i;
+}
+bool PhoneComp::operator()(std::wstring i, Transmission* s) {
+	std::wstring t1 = s->getPhoneNumber();
+	std::string temp1;
+	std::transform(t1.begin(), t1.end(), std::back_inserter(temp1), [](wchar_t c) { return (char)c; });
+	return i < t1;
+}
 bool Comp::operator() (Transmission* a, Transmission* b) const {
 	std::wstring t1 = a->getNumber(), t2 = b->getNumber();
 	std::string temp1, temp2;
 	std::transform(t1.begin(), t1.end(), std::back_inserter(temp1), [](wchar_t c) { return (char)c; });
 	std::transform(t2.begin(), t2.end(), std::back_inserter(temp2), [](wchar_t c) { return (char)c; });
 	return t1 < t2;
+}
+bool CompByFromCountry::operator() (Transmission* a, Transmission* b) const {
+	std::wstring t1 = a->getFromCountry(), t2 = b->getFromCountry();
+	std::string temp1, temp2;
+	std::transform(t1.begin(), t1.end(), std::back_inserter(temp1), [](wchar_t c) { return (char)c; });
+	std::transform(t2.begin(), t2.end(), std::back_inserter(temp2), [](wchar_t c) { return (char)c; });
+	return t1 < t2;
+}
+bool CompByCountry::operator() (Transmission* a, Transmission* b) const {
+	std::wstring t1 = a->getCountry(), t2 = b->getCountry();
+	std::string temp1, temp2;
+	std::transform(t1.begin(), t1.end(), std::back_inserter(temp1), [](wchar_t c) { return (char)c; });
+	std::transform(t2.begin(), t2.end(), std::back_inserter(temp2), [](wchar_t c) { return (char)c; });
+	return t1 < t2;
+}
+bool CompByFromCity::operator() (Transmission* a, Transmission* b) const {
+	std::wstring t1 = a->getFromCity(), t2 = b->getFromCity();
+	std::string temp1, temp2;
+	std::transform(t1.begin(), t1.end(), std::back_inserter(temp1), [](wchar_t c) { return (char)c; });
+	std::transform(t2.begin(), t2.end(), std::back_inserter(temp2), [](wchar_t c) { return (char)c; });
+	return t1 < t2;
+}
+bool CompByCity::operator() (Transmission* a, Transmission* b) const {
+	std::wstring t1 = a->getCity(), t2 = b->getCity();
+	std::string temp1, temp2;
+	std::transform(t1.begin(), t1.end(), std::back_inserter(temp1), [](wchar_t c) { return (char)c; });
+	std::transform(t2.begin(), t2.end(), std::back_inserter(temp2), [](wchar_t c) { return (char)c; });
+	return t1 < t2;
+}
+bool CompByFromAdress::operator() (Transmission* a, Transmission* b) const {
+	std::wstring t1 = a->getFromAdress(), t2 = b->getFromAdress();
+	std::string temp1, temp2;
+	std::transform(t1.begin(), t1.end(), std::back_inserter(temp1), [](wchar_t c) { return (char)c; });
+	std::transform(t2.begin(), t2.end(), std::back_inserter(temp2), [](wchar_t c) { return (char)c; });
+	return t1 < t2;
+}
+bool CompByAdress::operator() (Transmission* a, Transmission* b) const {
+	std::wstring t1 = a->getAdress(), t2 = b->getAdress();
+	std::string temp1, temp2;
+	std::transform(t1.begin(), t1.end(), std::back_inserter(temp1), [](wchar_t c) { return (char)c; });
+	std::transform(t2.begin(), t2.end(), std::back_inserter(temp2), [](wchar_t c) { return (char)c; });
+	return t1 < t2;
+}
+bool CompByFrom::operator() (Transmission* a, Transmission* b) const {
+	std::wstring t1 = a->getFrom(), t2 = b->getFrom();
+	std::string temp1, temp2;
+	std::transform(t1.begin(), t1.end(), std::back_inserter(temp1), [](wchar_t c) { return (char)c; });
+	std::transform(t2.begin(), t2.end(), std::back_inserter(temp2), [](wchar_t c) { return (char)c; });
+	return t1 < t2;
+}
+bool CompByTo::operator() (Transmission* a, Transmission* b) const {
+	std::wstring t1 = a->getTo(), t2 = b->getTo();
+	std::string temp1, temp2;
+	std::transform(t1.begin(), t1.end(), std::back_inserter(temp1), [](wchar_t c) { return (char)c; });
+	std::transform(t2.begin(), t2.end(), std::back_inserter(temp2), [](wchar_t c) { return (char)c; });
+	return t1 < t2;
+}
+bool CompByFromIndex::operator() (Transmission* a, Transmission* b) const {
+	return a->getFromIndex() < b->getFromIndex();
+}
+bool CompByIndex::operator() (Transmission* a, Transmission* b) const {
+	return a->getIndex() < b->getIndex();
+}
+bool CompByPhoneNumber::operator() (Transmission* a, Transmission* b) const {
+	std::wstring t1 = a->getPhoneNumber(), t2 = b->getPhoneNumber();
+	std::string temp1, temp2;
+	std::transform(t1.begin(), t1.end(), std::back_inserter(temp1), [](wchar_t c) { return (char)c; });
+	std::transform(t2.begin(), t2.end(), std::back_inserter(temp2), [](wchar_t c) { return (char)c; });
+	return t1 < t2;
+}
+bool CompByMass::operator() (Transmission* a, Transmission* b) const {
+	return a->getMass() < b->getMass();
 }
 
 DB::DB() {
@@ -317,8 +401,139 @@ void DB::saveFile() {
 void CFunctions::getAll(int& size, int* (&types), int* (&fromindexes), int* (&indexes), float* (&masses), wchar_t*** (&str), std::wstring filter, int number) {
 	std::locale::global(std::locale(""));
 	std::transform(filter.begin(), filter.end(), filter.begin(), towlower);
-	std::set<Transmission*, Comp> all;
+	std::multiset<Transmission*, Comp> all;
+	std::vector<Transmission*> sorting;
 	std::set_union(db->mails->begin(), db->mails->end(), db->packages->begin(), db->packages->end(), std::inserter(all, all.begin()), Comp());
+	std::wsmatch m;
+	if (std::regex_search(filter, m, std::wregex(LR"(^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$)"))) {
+		number = 12;
+	}
+	if (number == 1) {
+		for (std::multiset<Transmission*, Comp>::iterator i = all.begin(); i != all.end(); ++i) {
+			sorting.push_back(*i);
+		}
+	}
+	else if (number == 2) {
+		std::multiset<Transmission*, CompByFromCountry> temp;
+		for (std::multiset<Transmission*, Comp>::iterator i = all.begin(); i != all.end(); ++i) {
+			temp.insert(*i);
+		}
+		for (std::multiset<Transmission*, CompByFromCountry>::iterator i = temp.begin(); i != temp.end(); ++i) {
+			sorting.push_back(*i);
+		}
+	}
+	else if (number == 3) {
+		std::multiset<Transmission*, CompByFromCity> temp;
+		for (std::multiset<Transmission*, Comp>::iterator i = all.begin(); i != all.end(); ++i) {
+			temp.insert(*i);
+		}
+		for (std::multiset<Transmission*, CompByFromCity>::iterator i = temp.begin(); i != temp.end(); ++i) {
+			sorting.push_back(*i);
+		}
+	}
+	else if (number == 4) {
+		std::multiset<Transmission*, CompByFromAdress> temp;
+		for (std::multiset<Transmission*, Comp>::iterator i = all.begin(); i != all.end(); ++i) {
+			temp.insert(*i);
+		}
+		for (std::multiset<Transmission*, CompByFromAdress>::iterator i = temp.begin(); i != temp.end(); ++i) {
+			sorting.push_back(*i);
+		}
+	}
+	else if (number == 5) {
+		std::multiset<Transmission*, CompByFromIndex> temp;
+		for (std::multiset<Transmission*, Comp>::iterator i = all.begin(); i != all.end(); ++i) {
+			temp.insert(*i);
+		}
+		for (std::multiset<Transmission*, CompByFromIndex>::iterator i = temp.begin(); i != temp.end(); ++i) {
+			sorting.push_back(*i);
+		}
+	}
+	else if (number == 6) {
+		std::multiset<Transmission*, CompByCountry> temp;
+		for (std::multiset<Transmission*, Comp>::iterator i = all.begin(); i != all.end(); ++i) {
+			temp.insert(*i);
+		}
+		for (std::multiset<Transmission*, CompByCountry>::iterator i = temp.begin(); i != temp.end(); ++i) {
+			sorting.push_back(*i);
+		}
+	}
+	else if (number == 7) {
+		std::multiset<Transmission*, CompByCity> temp;
+		for (std::multiset<Transmission*, Comp>::iterator i = all.begin(); i != all.end(); ++i) {
+			temp.insert(*i);
+		}
+		for (std::multiset<Transmission*, CompByCity>::iterator i = temp.begin(); i != temp.end(); ++i) {
+			sorting.push_back(*i);
+		}
+	}
+	else if (number == 8) {
+		std::multiset<Transmission*, CompByAdress> temp;
+		for (std::multiset<Transmission*, Comp>::iterator i = all.begin(); i != all.end(); ++i) {
+			temp.insert(*i);
+		}
+		for (std::multiset<Transmission*, CompByAdress>::iterator i = temp.begin(); i != temp.end(); ++i) {
+			sorting.push_back(*i);
+		}
+	}
+	else if (number == 9) {
+		std::multiset<Transmission*, CompByIndex> temp;
+		for (std::multiset<Transmission*, Comp>::iterator i = all.begin(); i != all.end(); ++i) {
+			temp.insert(*i);
+		}
+		for (std::multiset<Transmission*, CompByIndex>::iterator i = temp.begin(); i != temp.end(); ++i) {
+			sorting.push_back(*i);
+		}
+	}
+	else if (number == 10) {
+		std::multiset<Transmission*, CompByFrom> temp;
+		for (std::multiset<Transmission*, Comp>::iterator i = all.begin(); i != all.end(); ++i) {
+			temp.insert(*i);
+		}
+		for (std::multiset<Transmission*, CompByFrom>::iterator i = temp.begin(); i != temp.end(); ++i) {
+			sorting.push_back(*i);
+		}
+	}
+	else if (number == 11) {
+		std::multiset<Transmission*, CompByTo> temp;
+		for (std::multiset<Transmission*, Comp>::iterator i = all.begin(); i != all.end(); ++i) {
+			temp.insert(*i);
+		}
+		for (std::multiset<Transmission*, CompByTo>::iterator i = temp.begin(); i != temp.end(); ++i) {
+			sorting.push_back(*i);
+		}
+	}
+	else if (number == 12) {
+		std::multiset<Transmission*, CompByPhoneNumber> temp;
+		for (std::multiset<Transmission*, Comp>::iterator i = all.begin(); i != all.end(); ++i) {
+			temp.insert(*i);
+		}
+		if (std::regex_search(filter, m, std::wregex(LR"(^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$)"))) {
+			auto range = std::equal_range(temp.begin(), temp.end(), filter, PhoneComp{});
+			for (auto i = range.first; i != range.second; ++i) {
+				sorting.push_back(*i);
+			}
+		}
+		else {
+			for (std::multiset<Transmission*, CompByPhoneNumber>::iterator i = temp.begin(); i != temp.end(); ++i) {
+				sorting.push_back(*i);
+			}
+		}
+	}
+	else if (number == 13) {
+		std::multiset<Transmission*, CompByMass> temp;
+		for (std::multiset<Transmission*, Comp>::iterator i = all.begin(); i != all.end(); ++i) {
+			temp.insert(*i);
+		}
+		for (std::multiset<Transmission*, CompByMass>::iterator i = temp.begin(); i != temp.end(); ++i) {
+			sorting.push_back(*i);
+		}
+	}
+	else {
+		for (std::multiset<Transmission*, Comp>::iterator i = all.begin(); i != all.end(); ++i) {
+			sorting.push_back(*i);
+		}
+	}
 	size = db->mails->size() + db->packages->size();
 	types = new int[size];
 	fromindexes = new int[size];
@@ -326,35 +541,136 @@ void CFunctions::getAll(int& size, int* (&types), int* (&fromindexes), int* (&in
 	masses = new float[size];
 	str = new wchar_t** [size];
 	int j = 0;
-	for (std::set<Transmission*, Comp>::iterator i = all.begin(); i != all.end(); ++i) {
+	for (std::vector<Transmission*>::iterator i = sorting.begin(); i != sorting.end(); ++i) {
 		str[j] = new wchar_t* [12];
 		for (int k = 0; k < 12; ++k) str[j][k] = new wchar_t[1024];
-		wcscpy_s(str[j][0], 1024, (*i)->getNumber().c_str());
-		wcscpy_s(str[j][1], 1024, (*i)->getFromCountry().c_str());
-		wcscpy_s(str[j][2], 1024, (*i)->getFromCity().c_str());
-		wcscpy_s(str[j][3], 1024, (*i)->getFromAdress().c_str());
-		wcscpy_s(str[j][4], 1024, (*i)->getCountry().c_str());
-		wcscpy_s(str[j][5], 1024, (*i)->getCity().c_str());
-		wcscpy_s(str[j][6], 1024, (*i)->getAdress().c_str());
-		wcscpy_s(str[j][7], 1024, (*i)->getFrom().c_str());
-		wcscpy_s(str[j][8], 1024, (*i)->getTo().c_str());
-		wcscpy_s(str[j][9], 1024, (*i)->getPhoneNumber().c_str());
-		wcscpy_s(str[j][10], 1024, (*i)->getState().c_str());
-		if ((*i)->getType() == 2) {
-			float* sizes = (*i)->getSize();
-			std::wstring s = std::to_wstring((int) (sizes[0] + 0.5)) + L"x" + std::to_wstring((int)(sizes[1] + 0.5)) + L"x" + std::to_wstring((int)(sizes[2] + 0.5));
-			wcscpy_s(str[j][11], 1024, s.c_str());
+		std::wstring number = (*i)->getNumber();
+		std::transform(number.begin(), number.end(), number.begin(), towlower);
+		std::wstring fromcountry = (*i)->getFromCountry();
+		std::transform(fromcountry.begin(), fromcountry.end(), fromcountry.begin(), towlower);
+		std::wstring fromcity = (*i)->getFromCity();
+		std::transform(fromcity.begin(), fromcity.end(), fromcity.begin(), towlower);
+		std::wstring fromadress = (*i)->getFromAdress();
+		std::transform(fromadress.begin(), fromadress.end(), fromadress.begin(), towlower);
+		std::wstring fromindex = std::to_wstring((*i)->getFromIndex());
+		std::transform(fromindex.begin(), fromindex.end(), fromindex.begin(), towlower);
+		std::wstring country = (*i)->getCountry();
+		std::transform(country.begin(), country.end(), country.begin(), towlower);
+		std::wstring city = (*i)->getCity();
+		std::transform(city.begin(), city.end(), city.begin(), towlower);
+		std::wstring adress = (*i)->getAdress();
+		std::transform(adress.begin(), adress.end(), adress.begin(), towlower);
+		std::wstring index = std::to_wstring((*i)->getIndex());
+		std::transform(index.begin(), index.end(), index.begin(), towlower);
+		std::wstring from = (*i)->getFrom();
+		std::transform(from.begin(), from.end(), from.begin(), towlower);
+		std::wstring to = (*i)->getTo();
+		std::transform(to.begin(), to.end(), to.begin(), towlower);
+		std::wstring phonenumber = (*i)->getPhoneNumber();
+		std::transform(phonenumber.begin(), phonenumber.end(), phonenumber.begin(), towlower);
+		std::wstring mass = std::to_wstring((*i)->getMass());
+		std::transform(mass.begin(), mass.end(), mass.begin(), towlower);
+		std::wstring state = (*i)->getState();
+		std::transform(state.begin(), state.end(), state.begin(), towlower);
+		if (filter == L"" || number.find(filter) != std::wstring::npos || fromcountry.find(filter) != std::wstring::npos || fromcity.find(filter) != std::wstring::npos || fromadress.find(filter) != std::wstring::npos || fromindex.find(filter) != std::wstring::npos || country.find(filter) != std::wstring::npos || city.find(filter) != std::wstring::npos || adress.find(filter) != std::wstring::npos || index.find(filter) != std::wstring::npos || from.find(filter) != std::wstring::npos || to.find(filter) != std::wstring::npos || phonenumber.find(filter) != std::wstring::npos || mass.find(filter) != std::wstring::npos || state.find(filter) != std::wstring::npos) {
+			wcscpy_s(str[j][0], 1024, (*i)->getNumber().c_str());
+			wcscpy_s(str[j][1], 1024, (*i)->getFromCountry().c_str());
+			wcscpy_s(str[j][2], 1024, (*i)->getFromCity().c_str());
+			wcscpy_s(str[j][3], 1024, (*i)->getFromAdress().c_str());
+			wcscpy_s(str[j][4], 1024, (*i)->getCountry().c_str());
+			wcscpy_s(str[j][5], 1024, (*i)->getCity().c_str());
+			wcscpy_s(str[j][6], 1024, (*i)->getAdress().c_str());
+			wcscpy_s(str[j][7], 1024, (*i)->getFrom().c_str());
+			wcscpy_s(str[j][8], 1024, (*i)->getTo().c_str());
+			wcscpy_s(str[j][9], 1024, (*i)->getPhoneNumber().c_str());
+			wcscpy_s(str[j][10], 1024, (*i)->getState().c_str());
+			if ((*i)->getType() == 2) {
+				float* sizes = (*i)->getSize();
+				std::wstring s = std::to_wstring((int)(sizes[0] + 0.5)) + L"x" + std::to_wstring((int)(sizes[1] + 0.5)) + L"x" + std::to_wstring((int)(sizes[2] + 0.5));
+				wcscpy_s(str[j][11], 1024, s.c_str());
+			}
+			else {
+				wcscpy_s(str[j][11], 1024, L"");
+			}
+			fromindexes[j] = (*i)->getFromIndex();
+			indexes[j] = (*i)->getIndex();
+			masses[j] = (*i)->getMass();
+			types[j] = (*i)->getType();
+			j++;
 		}
-		else {
-			wcscpy_s(str[j][11], 1024, L"");
-		}
-		fromindexes[j] = (*i)->getFromIndex();
-		indexes[j] = (*i)->getIndex();
-		masses[j] = (*i)->getMass();
-		types[j] = (*i)->getType();
-		j++;
 	}
 	size = j;
+}
+void CFunctions::addTransmission(std::wstring number,
+		std::wstring fromcountry,
+		std::wstring fromcity,
+		std::wstring fromadress,
+		std::wstring fromindex,
+		std::wstring country,
+		std::wstring city,
+		std::wstring adress,
+		std::wstring index,
+		std::wstring from,
+		std::wstring to,
+		std::wstring phonenumber,
+		std::wstring mass,
+		std::wstring state,
+		std::wstring type,
+		std::wstring x,
+		std::wstring y,
+		std::wstring z
+	) {
+	int fi = std::stoi(fromindex.c_str());
+	int i = std::stoi(index.c_str());
+	float m = std::stof(mass.c_str());
+	int t = std::stoi(type.c_str());
+	if (t == 1) {
+		db->mails->insert(new Mail(
+			number,
+			fromcountry,
+			fromcity,
+			fromadress,
+			fi,
+			country,
+			city,
+			adress,
+			i,
+			from,
+			to,
+			phonenumber,
+			m,
+			state));
+	}
+	else {
+		db->packages->insert(new Package(
+			number,
+			fromcountry,
+			fromcity,
+			fromadress,
+			fi,
+			country,
+			city,
+			adress,
+			i,
+			from,
+			to,
+			phonenumber,
+			m,
+			state, 
+			std::stoi(x.c_str()),
+			std::stoi(y.c_str()),
+			std::stoi(z.c_str())));
+	}
+}
+void CFunctions::editState(std::wstring number, std::wstring state) {
+	std::set<Transmission*, Comp> all;
+	std::set_union(db->mails->begin(), db->mails->end(), db->packages->begin(), db->packages->end(), std::inserter(all, all.begin()), Comp());
+	for (std::set<Transmission*, Comp>::iterator i = all.begin(); i != all.end(); ++i) {
+		if ((*i)->getNumber() == number) {
+			(*i)->setState(state);
+			break;
+		}
+	}
 }
 
 CFunctions::CFunctions() {

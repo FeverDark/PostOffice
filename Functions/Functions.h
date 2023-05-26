@@ -95,7 +95,49 @@ public:
 	Transmission* copy();
 };
 
+struct PhoneComp
+{
+	bool operator()(Transmission* s, std::wstring i);
+	bool operator()(std::wstring i, Transmission* s);
+};
+
 struct Comp {
+	bool operator() (Transmission* a, Transmission* b) const;
+};
+struct CompByFromCountry {
+	bool operator() (Transmission* a, Transmission* b) const;
+};
+struct CompByCountry {
+	bool operator() (Transmission* a, Transmission* b) const;
+};
+struct CompByFromCity {
+	bool operator() (Transmission* a, Transmission* b) const;
+};
+struct CompByCity {
+	bool operator() (Transmission* a, Transmission* b) const;
+};
+struct CompByFromAdress {
+	bool operator() (Transmission* a, Transmission* b) const;
+};
+struct CompByAdress {
+	bool operator() (Transmission* a, Transmission* b) const;
+};
+struct CompByFrom {
+	bool operator() (Transmission* a, Transmission* b) const;
+};
+struct CompByTo {
+	bool operator() (Transmission* a, Transmission* b) const;
+};
+struct CompByFromIndex {
+	bool operator() (Transmission* a, Transmission* b) const;
+};
+struct CompByIndex {
+	bool operator() (Transmission* a, Transmission* b) const;
+};
+struct CompByPhoneNumber {
+	bool operator() (Transmission* a, Transmission* b) const;
+};
+struct CompByMass {
 	bool operator() (Transmission* a, Transmission* b) const;
 };
 
@@ -121,5 +163,25 @@ public:
 	static CFunctions* getInstance();
 	~CFunctions();
 	void getAll(int& size, int* (&types), int* (&fromindexes), int* (&indexes), float* (&masses), wchar_t*** (&str), std::wstring filter, int number);
+	void addTransmission(std::wstring number,
+		std::wstring fromcountry,
+		std::wstring fromcity,
+		std::wstring fromadress,
+		std::wstring fromindex,
+		std::wstring country,
+		std::wstring city,
+		std::wstring adress,
+		std::wstring index,
+		std::wstring from,
+		std::wstring to,
+		std::wstring phonenumber,
+		std::wstring mass,
+		std::wstring state,
+		std::wstring type,
+		std::wstring x,
+		std::wstring y,
+		std::wstring z
+	);
+	void editState(std::wstring number, std::wstring state);
 };
 
