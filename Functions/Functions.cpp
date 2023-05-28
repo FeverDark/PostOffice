@@ -48,9 +48,6 @@ std::wstring Transmission::getPhoneNumber() {
 float Transmission::getMass() {
 	return mass;
 }
-int Transmission::getType() {
-	return type;
-}
 std::wstring Transmission::getState() {
 	return state;
 }
@@ -93,9 +90,6 @@ void Transmission::setPhoneNumber(std::wstring phonenumber) {
 void Transmission::setMass(float mass) {
 	this->mass = mass;
 }
-void Transmission::setType(int type) {
-	this->type = type;
-}
 void Transmission::setState(std::wstring state) {
 	this->state = state;
 }
@@ -120,7 +114,6 @@ Mail::Mail(std::wstring number, std::wstring fromcountry, std::wstring fromcity,
 	this->to = to;
 	this->phonenumber = phonenumber;
 	this->mass = mass;
-	this->type = 1;
 	this->state = state;
 }
 Mail::Mail(const Mail& temp) {
@@ -137,7 +130,6 @@ Mail::Mail(const Mail& temp) {
 	this->to = temp.to;
 	this->phonenumber = temp.phonenumber;
 	this->mass = temp.mass;
-	this->type = temp.type;
 	this->state = temp.state;
 }
 Transmission* Mail::copy() {
@@ -158,7 +150,6 @@ Package::Package(std::wstring number, std::wstring fromcountry, std::wstring fro
 	this->to = to;
 	this->phonenumber = phonenumber;
 	this->mass = mass;
-	this->type = 2;
 	this->state = state;
 	setSize(x, y, z);
 }
@@ -188,7 +179,6 @@ Package::Package(const Package& temp) {
 	this->to = temp.to;
 	this->phonenumber = temp.phonenumber;
 	this->mass = temp.mass;
-	this->type = temp.type;
 	this->state = temp.state;
 	this->x = temp.x;
 	this->y = temp.y;
@@ -398,7 +388,7 @@ void DB::saveFile() {
 	}
 	file.close();
 }
-void CFunctions::getAll(int& size, int* (&types), int* (&fromindexes), int* (&indexes), float* (&masses), wchar_t*** (&str), std::wstring filter, int number) {
+void CFunctions::getAll(int& size, bool* (&mails), int* (&fromindexes), int* (&indexes), float* (&masses), wchar_t*** (&str), std::wstring filter, int number) {
 	std::locale::global(std::locale(""));
 	std::transform(filter.begin(), filter.end(), filter.begin(), towlower);
 	std::multiset<Transmission*, Comp> all;
@@ -535,7 +525,7 @@ void CFunctions::getAll(int& size, int* (&types), int* (&fromindexes), int* (&in
 		}
 	}
 	size = db->mails->size() + db->packages->size();
-	types = new int[size];
+	mails = new bool[size];
 	fromindexes = new int[size];
 	indexes = new int[size];
 	masses = new float[size];
@@ -584,18 +574,19 @@ void CFunctions::getAll(int& size, int* (&types), int* (&fromindexes), int* (&in
 			wcscpy_s(str[j][8], 1024, (*i)->getTo().c_str());
 			wcscpy_s(str[j][9], 1024, (*i)->getPhoneNumber().c_str());
 			wcscpy_s(str[j][10], 1024, (*i)->getState().c_str());
-			if ((*i)->getType() == 2) {
+			if ((*i)->getSize() != NULL) {
 				float* sizes = (*i)->getSize();
 				std::wstring s = std::to_wstring((int)(sizes[0] + 0.5)) + L"x" + std::to_wstring((int)(sizes[1] + 0.5)) + L"x" + std::to_wstring((int)(sizes[2] + 0.5));
 				wcscpy_s(str[j][11], 1024, s.c_str());
+				mails[j] = false;
 			}
 			else {
 				wcscpy_s(str[j][11], 1024, L"");
+				mails[j] = true;
 			}
 			fromindexes[j] = (*i)->getFromIndex();
 			indexes[j] = (*i)->getIndex();
 			masses[j] = (*i)->getMass();
-			types[j] = (*i)->getType();
 			j++;
 		}
 	}

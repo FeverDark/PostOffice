@@ -520,54 +520,54 @@ namespace PostOffice {
 		c->Name = "Column" + (dataGridView1->ColumnCount + 1);
 		c->CellTemplate = td;
 		dataGridView1->Columns->Add(c);*/
-		int* types;
+		bool* mails;
 		int* fromindexes;
 		int* indexes;
 		float* masses;
 		wchar_t*** str;
 		int size = 0;
 		if (radioButton1->Checked) {
-			functions->getAll(size, types, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 1);
+			functions->getAll(size, mails, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 1);
 		}
 		else if (radioButton2->Checked) {
-			functions->getAll(size, types, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 2);
+			functions->getAll(size, mails, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 2);
 		} 
 		else if(radioButton3->Checked) {
-			functions->getAll(size, types, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 3);
+			functions->getAll(size, mails, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 3);
 		}
 		else if (radioButton4->Checked) {
-			functions->getAll(size, types, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 4);
+			functions->getAll(size, mails, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 4);
 		}
 		else if (radioButton5->Checked) {
-			functions->getAll(size, types, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 5);
+			functions->getAll(size, mails, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 5);
 		}
 		else if (radioButton6->Checked) {
-			functions->getAll(size, types, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 6);
+			functions->getAll(size, mails, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 6);
 		}
 		else if (radioButton7->Checked) {
-			functions->getAll(size, types, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 7);
+			functions->getAll(size, mails, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 7);
 		}
 		else if (radioButton8->Checked) {
-			functions->getAll(size, types, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 8);
+			functions->getAll(size, mails, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 8);
 		}
 		else if (radioButton9->Checked) {
-			functions->getAll(size, types, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 9);
+			functions->getAll(size, mails, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 9);
 		}
 		else if (radioButton10->Checked) {
-			functions->getAll(size, types, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 10);
+			functions->getAll(size, mails, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 10);
 		}
 		else if (radioButton11->Checked) {
-			functions->getAll(size, types, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 11);
+			functions->getAll(size, mails, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 11);
 		}
 		else if (radioButton12->Checked) {
-			functions->getAll(size, types, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 12);
+			functions->getAll(size, mails, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 12);
 		}
 		else if (radioButton13->Checked) {
-			functions->getAll(size, types, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 13);
+			functions->getAll(size, mails, fromindexes, indexes, masses, str, msclr::interop::marshal_as<std::wstring>(find->ToString()), 13);
 		}
 		for (int i = 0; i < size; ++i) {
 			DataGridViewRow^ r = gcnew DataGridViewRow();
-			if (types[i] == 1)
+			if (mails[i])
 				r->HeaderCell->Value = L"Письмо";
 			else r->HeaderCell->Value = L"Посылка";
 			r->CreateCells(dataGridView1);
@@ -601,7 +601,7 @@ namespace PostOffice {
 		delete masses;
 		delete indexes;
 		delete fromindexes;
-		delete types;
+		delete mails;
 	}
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		PostOffice::CreationForm creation;

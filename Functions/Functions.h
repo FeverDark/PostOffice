@@ -162,7 +162,7 @@ private:
 public:
 	static CFunctions* getInstance();
 	~CFunctions();
-	void getAll(int& size, int* (&types), int* (&fromindexes), int* (&indexes), float* (&masses), wchar_t*** (&str), std::wstring filter, int number);
+	void getAll(int& size, bool* (&mails), int* (&fromindexes), int* (&indexes), float* (&masses), wchar_t*** (&str), std::wstring filter, int number);
 	void addTransmission(std::wstring number,
 		std::wstring fromcountry,
 		std::wstring fromcity,
